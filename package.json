@@ -1,0 +1,19 @@
+{
+  "name": "wow-profession-links",
+  "version": "1.0.0",
+  "description": "Sends World of Warcraft profession links to Discord channel",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "moh@yutsuku.net",
+  "license": "WTFPL",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "eris": "^0.11.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5",
+    "xml2js": "^0.4.22"
+  }
+}
