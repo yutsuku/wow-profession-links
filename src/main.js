@@ -1,3 +1,6 @@
+// add
+// export NODE_ENV=development
+// to your env before starting npm
 const config = require('../config')[process.env.NODE_ENV];
 console.log(`Running in ${process.env.NODE_ENV} environment`);
 
@@ -19,6 +22,12 @@ const cheerio = require('cheerio');
 const parseString = require('xml2js').parseString;
 const pvpEventOptions = {
     uri: "https://www.dalaran-wow.com/pvp/",
+    headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101 Firefox/68.0',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'DNT': '1',
+    },
     transform: function (body) {
         return cheerio.load(body);
     }
@@ -157,6 +166,9 @@ async function getPvpStats() {
         response.horde = horde;
     }
     catch (err) {
+        console.log('HTTP Code: ' + err.statusCode);
+        console.log('Error name: ' + err.name);
+        console.log(err.error);
         response.error = true;
     }
     return response;
