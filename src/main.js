@@ -53,7 +53,7 @@ var professions = {
         "links": [
             " |cffffd000|Htrade:51311:450:450:140E7D:8/7WuqMtJzjpuMHAABIwHAAAg/Bg/vBAufnhAA+BAAAA6////7//+f3//u37t/bvbX0e7s//9/////////////////////D|h[Jewelcrafting]|h|r Evion",
             " |cffffd000|Htrade:51311:450:450:14421F:8//Xu+Nt9zj5vOHI0RRwXIBYx/Zv//BAAAAAAg+1IAAA6/37v77e3/1eDjzTnzLFTHsYms5nTIC8/D8Pw/RcCeZ+fo80giD|h[Jewelcrafting]|h|r Stabolina",
-            " |cffffd000|Htrade:51311:450:450:10D95B:8f6VsqMsJyjpmMHAAAIwHCAAg/Bg/vBAAAAAAA+BAAAA6/37v77e2f1eDjTblhLhTHFYjk9npIB8/f9f2/NEA+5/9t83HmD|h[Jewelcrafting]|h|r Shneeki"
+            " |cffffd000|Htrade:51311:450:450:1325AE:8f6UsqMsJyjpmMHAAAAwHIAAg/Bg/vBAAAAAAA+BAAAA6/37v7re2f1eDjSWlhPBSnEYik9nEok+/D8P4/TAA+p6d48SBiC|h[Jewelcrafting]|h|r Sicck"
         ]
     },
     "Engineering": {
