@@ -250,13 +250,13 @@ bot.on("messageCreate", async (msg) => { // When a message is created
         return;
     }
 
-    if (msg.content.match(commandPattern + "Chaika?")) {
+    if (msg.content.match(commandPattern + "Chaika\\?")) {
         bot.createMessage(msg.channel.id, "Chaika");
         lastMessageTimestamp = now;
         return;
     }
 
-    if (msg.content.match(commandPattern + "Chaika")) {
+    if (msg.content.match(commandPattern + "Chaika$")) {
         bot.createMessage(msg.channel.id, "mwee");
         lastMessageTimestamp = now;
         return;
