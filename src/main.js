@@ -249,7 +249,19 @@ bot.on("messageCreate", async (msg) => { // When a message is created
         lastMessageTimestamp = now;
         return;
     }
-    
+
+    if (msg.content.match(commandPattern + "Chaika?")) {
+        bot.createMessage(msg.channel.id, "Chaika");
+        lastMessageTimestamp = now;
+        return;
+    }
+
+    if (msg.content.match(commandPattern + "Chaika")) {
+        bot.createMessage(msg.channel.id, "mwee");
+        lastMessageTimestamp = now;
+        return;
+    }
+
     if (links = getProfessionLink(msg.content)) {
         for (let link of links) {
             bot.createMessage(msg.channel.id, link); 
