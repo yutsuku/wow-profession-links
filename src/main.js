@@ -20,10 +20,10 @@ const os = require("os");
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 const parseString = require('xml2js').parseString;
-const pvpEventOptions = {
+const tournamentEventOptions = {
     uri: "https://www.dalaran-wow.com/pvp/",
     headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101 Firefox/68.0',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'en-US,en;q=0.5',
         'DNT': '1',
@@ -149,21 +149,44 @@ async function downloadAnibe() {
     catch (err) {}
 }
 
-async function getPvpStats() {
-    var response = {};
+async function getTournamentStats() {
+    const response = {
+        alliance: {
+            pvp: null,
+            pve: null
+        },
+        horde: {
+            pvp: null,
+            pve: null
+        },
+        error: null
+    };
+
     try {
-        var $ = await rp(pvpEventOptions);
+        var $ = await rp(tournamentEventOptions);
         $(".sidebar-content > .leaderboard-content-block span").each(function(i, element) {
-            //console.log(i, $(this).text());
             if (i === 0) {
-                alliance = $(this).text().trim();
+                response.alliance.pve = $(this).text().trim();
             } else if (i === 1) {
-                horde = $(this).text().trim();
+                response.horde.pve = $(this).text().trim();
+            } else if (i === 22) {
+                response.alliance.pvp = $(this).text().trim();
+            } else if (i === 23) {
+                response.horde.pvp = $(this).text().trim();
             }
         });
+        
+        Object.values(response.alliance).forEach(e => {
+        if (e.length > 10) {
+            response.error = true;
+        }
+        });
 
-        response.alliance = alliance;
-        response.horde = horde;
+        Object.values(response.horde).forEach(e => {
+            if (e.length > 10) {
+                response.error = true;
+            }
+        });
     }
     catch (err) {
         console.log('HTTP Code: ' + err.statusCode);
@@ -171,6 +194,7 @@ async function getPvpStats() {
         console.log(err.error);
         response.error = true;
     }
+
     return response;
 }
 
@@ -271,9 +295,20 @@ bot.on("messageCreate", async (msg) => { // When a message is created
     }
 
     if (msg.content.match(commandPattern + "!pvp")) {
-        let stats = await getPvpStats();
+        let stats = await getTournamentStats();
         if (!stats.error) {
-            bot.createMessage(msg.channel.id, `Alliance ${stats.alliance}, Horde ${stats.horde}`);
+            bot.createMessage(msg.channel.id, `Alliance ${stats.alliance.pvp}, Horde ${stats.horde.pvp}`);
+        } else {
+            bot.createMessage(msg.channel.id, "Shocking truth! Doesn't work! Stupid!");
+        }
+        lastMessageTimestamp = now;
+        return;
+    }
+
+    if (msg.content.match(commandPattern + "!pve")) {
+        let stats = await getTournamentStats();
+        if (!stats.error) {
+            bot.createMessage(msg.channel.id, `Alliance ${stats.alliance.pve}, Horde ${stats.horde.pve}`);
         } else {
             bot.createMessage(msg.channel.id, "Shocking truth! Doesn't work! Stupid!");
         }
