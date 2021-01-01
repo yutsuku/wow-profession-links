@@ -164,18 +164,30 @@ async function getTournamentStats() {
 
     try {
         var $ = await rp(tournamentEventOptions);
-        $(".sidebar-content > .leaderboard-content-block span").each(function(i, element) {
+        $(".sidebar-content > .leaderboard-content-block span[style]").each(function(i, element) {
             if (i === 0) {
                 response.alliance.pve = $(this).text().trim();
             } else if (i === 1) {
                 response.horde.pve = $(this).text().trim();
-            } else if (i === 22) {
+            } else if (i === 2) {
                 response.alliance.pvp = $(this).text().trim();
-            } else if (i === 23) {
+            } else if (i === 3) {
                 response.horde.pvp = $(this).text().trim();
             }
         });
-        
+
+        // pvp response must be a number
+        response.alliance.pvp = +response.alliance.pvp;
+        response.horde.pvp = +response.horde.pvp;
+
+        if ( (typeof response.alliance.pvp === 'number' && !isNaN(response.alliance.pvp)) === false ) {
+            response.error = true;
+        }
+
+        if ( (typeof response.horde.pvp === 'number' && !isNaN(response.horde.pvp)) === false ) {
+            response.error = true;
+        }
+
         Object.values(response.alliance).forEach(e => {
         if (e.length > 10) {
             response.error = true;
